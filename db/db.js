@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb+srv://gabrielsantos26:gabrielsantos26@cluster0.i5qed37.mongodb.net/'; // ajuste conforme necessário
+const mongoURI = 'mongodb+srv://gabrielsantos26:gabrielsantos26@sistemagestao.jzgohqc.mongodb.net/';
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,

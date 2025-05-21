@@ -5,10 +5,13 @@ var logger = require('morgan');
 require('./db/db');
 
 var usersRouter = require('./routes/users');
+var taksRouter = require('./routes/tasks');
+var logsRouter = require('./routes/logs');
+var commentsRouter = require('./routes/comments');
 
 var app = express();
 
-// view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -20,6 +23,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', usersRouter);
+app.use('/task', taksRouter);
+app.use('/logs', logsRouter);
+app.use('/comments', commentsRouter);
 
 
 app.use(function(req, res, next) {
