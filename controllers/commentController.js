@@ -1,24 +1,27 @@
 const Comment = require('../models/comment');
 
-
-const getComment = async function(req, res, next) {
+const getComment = async (req, res) => {
   try {
     const comments = await Comment.find();
-    res.render('index', { comments });
+    res.json(comments ); 
   } catch (error) {
-    res.status(500).send('Erro ao buscar usuários');
+    res.status(500).send('Erro ao buscar comentários');
   }
 };
 
 const postComment = async (req, res) => {
-  const { 
+  const {
     texto,
-    dataCriacao
-} = req.body;
+    dataCriacao,
+    taskId,
+    userId 
+  } = req.body;
 
   const newComment = new Comment({
     texto,
-    dataCriacao
+    dataCriacao,
+    taskId,
+    userId
   });
 
   try {
@@ -30,6 +33,46 @@ const postComment = async (req, res) => {
 };
 
 
+const updateComment = async (req, res) => {
+  const { id } = req.params;
+  const { texto, dataCriacao } = req.body;
 
+  try {
+    const updatedComment = await Comment.findByIdAndUpdate(
+      id,
+      { texto, dataCriacao },
+      { new: true }
+    );
 
-module.exports = { getComment, postComment };
+    if (!updatedComment) {
+      return res.status(404).json({ message: 'Comentário não encontrado' });
+    }
+
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedComment = await Comment.findByIdAndDelete(id);
+
+    if (!deletedComment) {
+      return res.status(404).json({ message: 'Comentário não encontrado' });
+    }
+
+    res.status(200).json({ message: 'Comentario deletado' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getComment,
+  postComment,
+  updateComment,
+  deleteComment,
+};

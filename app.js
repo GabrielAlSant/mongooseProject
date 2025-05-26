@@ -12,9 +12,6 @@ var commentsRouter = require('./routes/comments');
 var app = express();
 
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,10 +23,6 @@ app.use('/', usersRouter);
 app.use('/task', taksRouter);
 app.use('/logs', logsRouter);
 app.use('/comments', commentsRouter);
-
-
-app.use(function(req, res, next) {
-});
 
 
 module.exports = app;
